@@ -22,4 +22,5 @@ view (temp_difference)
 temp_difference_by_month <- group_by(temp_difference, Month)
 view(temp_difference_by_month)
 
-summary <- summarise (temp_difference_by_month, mean_temp_diff = mean(temp_difference))
+summary_temp_difference_by_month <- summarise (temp_difference_by_month, mean_temp_diff = mean(temp_difference))
+view (summary_temp_difference_by_month)
