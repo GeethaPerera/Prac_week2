@@ -24,3 +24,8 @@ view(temp_difference_by_month)
 
 summary_temp_difference_by_month <- summarise (temp_difference_by_month, mean_temp_diff = mean(temp_difference))
 view (summary_temp_difference_by_month)
+
+arrange(summary_temp_difference_by_month, mean_temp_diff)
+
+# The month that showed the lowest average temperature difference is June. 
+
