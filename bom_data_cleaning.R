@@ -71,3 +71,13 @@ summary_temp_difference_by_state
 arrange(summary_temp_difference_by_state, mean_temp_diff)
 
 # The state that showed the lowest average temperature difference is Queensland.
+
+# Question 4
+
+view(bom_final_filtered_numeric)
+bom_final_numeric <-mutate (bom_final_filtered_numeric,Solar_exposure = as.numeric(Solar_exposure),lon=as.numeric(lon))
+bom_final_numeric
+bom_final_numeric_filtered <- filter(bom_final_numeric, Solar_exposure!="NA")
+bom_final_numeric_filtered
+bom_final_numeric_filtered_by_logitude <- group_by(bom_final_numeric_filtered, lon)
+bom_final_numeric_filtered_by_logitude
