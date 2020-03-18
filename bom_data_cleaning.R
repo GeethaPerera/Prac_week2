@@ -79,5 +79,18 @@ bom_final_numeric <-mutate (bom_final_filtered_numeric,Solar_exposure = as.numer
 bom_final_numeric
 bom_final_numeric_filtered <- filter(bom_final_numeric, Solar_exposure!="NA")
 bom_final_numeric_filtered
-bom_final_numeric_filtered_by_logitude <- group_by(bom_final_numeric_filtered, lon)
-bom_final_numeric_filtered_by_logitude
+bom_final_numeric_filtered_by_longitude <- group_by(bom_final_numeric_filtered, lon)
+bom_final_numeric_filtered_by_longitude
+summary_solar_exposure_by_longitude <- summarise (bom_final_numeric_filtered_by_longitude, mean_solar_exposure = mean(Solar_exposure))
+summary_solar_exposure_by_longitude
+arrange(summary_solar_exposure_by_longitude, lon)
+
+# the eastmost (highest longitude) weather station have a higher average solar exposure
+
+#another way to find the same answer
+
+head(summary_solar_exposure_by_longitude,1)
+tail(summary_solar_exposure_by_longitude,1)
+
+
+
