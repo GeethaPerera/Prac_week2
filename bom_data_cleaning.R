@@ -3,7 +3,9 @@ bom_data <- read_csv("data/BOM_data.csv")
 bom_stations <- read_csv("data/BOM_stations.csv")
 bom_data
 bom_stations
+
 # question 1
+
 temp_seperated <- separate(bom_data, Temp_min_max, into = c("t_min", "t_max"), sep="/")
 view (temp_seperated)
 temp_seperated_filtered <- filter(temp_seperated, Rainfall!="-",t_min!="-",t_max!="-")
@@ -29,3 +31,43 @@ arrange(summary_temp_difference_by_month, mean_temp_diff)
 
 # The month that showed the lowest average temperature difference is June. 
 
+# Question 3
+
+bom_data
+bom_stations
+
+# the station data is not in a tidy format 
+# as stations are listed in columns and the information on each station
+# are listed in rows
+
+
+bom_stations_long <-gather(bom_stations,key=Station_number,value="value",2:21)
+bom_stations_long
+
+# this data is tidy
+
+bom_stations_long_spread <- spread(bom_stations_long, key = info, value = "value")
+bom_stations_long_spread 
+bom_stations_new <- mutate(bom_stations_long_spread,Station_number=as.numeric(Station_number))
+bom_stations_new
+
+bom_final <- full_join(temp_seperated,bom_stations_new)
+bom_final
+bom_final_filtered <- filter(bom_final, Rainfall!="-",t_min!="-",t_max!="-")
+bom_final_filtered
+bom_final_filtered_numeric <- bom_final_filtered %>%   
+  mutate(t_min = as.numeric(t_min))%>%  
+  mutate(t_max = as.numeric(t_max))
+bom_final_filtered_numeric
+bom_final_temp_difference <- mutate(bom_final_filtered_numeric, temp_difference = t_max-t_min)
+bom_final_temp_difference
+view(bom_final_temp_difference)
+temp_difference_by_state <- group_by(bom_final_temp_difference, state)
+view(temp_difference_by_state)
+
+summary_temp_difference_by_state <- summarise (temp_difference_by_state, mean_temp_diff = mean(temp_difference))
+summary_temp_difference_by_state
+
+arrange(summary_temp_difference_by_state, mean_temp_diff)
+
+# The state that showed the lowest average temperature difference is Queensland.
